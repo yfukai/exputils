@@ -39,3 +39,12 @@ IS_WRITEABLE = PathPredicate(
 def get_argparse_parser(desc=""):
 	return argparse.ArgumentParser(description=desc)
 
+# path_args ... {"name1": (pred1, pred2, ...), "name2": (pred1,...)}
+def set_simple_path_args(desc, path_args,args=None):
+	parser=get_argparse_parser(desc)
+	for name, path_arg in path_args.items() :
+		parser.add_argument(name,action=argparse_action(*path_arg))
+	args = parser.parse_args(args)
+	keys = path_args.keys()
+	return dict(zip(keys,[getattr(args,k) for k in keys]))
+

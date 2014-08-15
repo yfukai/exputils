@@ -52,3 +52,13 @@ describe "add_pred_argument readable path":
 	it "should raise error on not exist dir argments":
 		raises Exception: self.parser.parse_args('not_exist_dir'.split())
 
+describe "set_simple_path_args":
+	it "should parse readable dir argments":
+		parsed_args = arg.set_simple_path_args(
+			"test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
+			args='exist_dir'.split())
+		assert parsed_args["dir"] == "exist_dir"
+	it "should rais error on not appropreate args":
+		raises Exception: arg.set_simple_path_args(
+			"test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
+			args='exist_file'.split())
