@@ -10,7 +10,7 @@ LIB_DIR = os.path.realpath('../')
 if not LIB_DIR in sys.path:
 	sys.path.insert(0, LIB_DIR)
 #
-import exputils.scriptutils.arguments as arg
+import exputils.scriptutils.argutils as arg
 
 describe "add_pred_argument readable dir":
 	before each:
