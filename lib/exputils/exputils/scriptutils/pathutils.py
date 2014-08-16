@@ -1,12 +1,12 @@
 import os
 import os.path as path
 
-def getfiles(path,extension=None):
-    if not os.path.isdir(path):
+def getfiles(directory,extension=None):
+    if not os.path.isdir(directory):
         raise StandardError("not valid dir")
     files = []
-    for f in os.listdir(path):
+    for f in os.listdir(directory):
         if extension == None or f.endswith(extension):
-            files.append(f)
+            files.append(path.abspath(path.join(directory,f)))
     return files
 
