@@ -8,57 +8,66 @@ import konira
 LIB_DIR = os.path.realpath('../')
 
 if not LIB_DIR in sys.path:
-	sys.path.insert(0, LIB_DIR)
+    sys.path.insert(0, LIB_DIR)
 #
 import exputils.scriptutils.argutils as arg
 
 describe "add_pred_argument readable dir":
-	before each:
-		self.parser = arg.get_argparse_parser("test parser")
-		self.parser.add_argument("path",
-			action=arg.argparse_action(arg.IS_DIR,arg.IS_READABLE))
-	it "should parse readable dir argments":
-		self.parser.parse_args('exist_dir'.split())
-		assert True
-	it "should raise error on not exist dir argments":
-		raises Exception: self.parser.parse_args('not_exist_dir'.split())
-	it "should raise error on file argments":
-		raises Exception: self.parser.parse_args('exist_file'.split())
+    before each:
+        self.parser = arg.get_argparse_parser("test parser")
+        self.parser.add_argument("path",
+            action=arg.argparse_action(arg.IS_DIR,arg.IS_READABLE))
+    it "should parse readable dir argments":
+        self.parser.parse_args('exist_dir'.split())
+        assert True
+    it "should raise error on not exist dir argments":
+        raises Exception: self.parser.parse_args('not_exist_dir'.split())
+    it "should raise error on file argments":
+        raises Exception: self.parser.parse_args('exist_file'.split())
 
 describe "add_pred_argument readable file":
-	before each:
-		self.parser = arg.get_argparse_parser("test parser")
-		self.parser.add_argument("path",
-			action=arg.argparse_action(arg.IS_FILE,arg.IS_READABLE))
-	it "should parse readable file argments":
-		self.parser.parse_args('exist_file'.split())
-		assert True
-	it "should raise error on not exist file argments":
-		raises Exception: self.parser.parse_args('not_exist_file'.split())
-	it "should raise error on file argments":
-		raises Exception: self.parser.parse_args('exist_dir'.split())
+    before each:
+        self.parser = arg.get_argparse_parser("test parser")
+        self.parser.add_argument("path",
+            action=arg.argparse_action(arg.IS_FILE,arg.IS_READABLE))
+    it "should parse readable file argments":
+        self.parser.parse_args('exist_file'.split())
+        assert True
+    it "should raise error on not exist file argments":
+        raises Exception: self.parser.parse_args('not_exist_file'.split())
+    it "should raise error on file argments":
+        raises Exception: self.parser.parse_args('exist_dir'.split())
 
 describe "add_pred_argument readable path":
-	before each:
-		self.parser = arg.get_argparse_parser("test parser")
-		self.parser.add_argument("path",
-			action=arg.argparse_action(arg.IS_PATH,arg.IS_READABLE))
-	it "should parse readable file argments":
-		self.parser.parse_args('exist_file'.split())
-		assert True
-	it "should parse readable dir argments":
-		self.parser.parse_args('exist_dir'.split())
-		assert True
-	it "should raise error on not exist dir argments":
-		raises Exception: self.parser.parse_args('not_exist_dir'.split())
+    before each:
+        self.parser = arg.get_argparse_parser("test parser")
+        self.parser.add_argument("path",
+            action=arg.argparse_action(arg.IS_PATH,arg.IS_READABLE))
+    it "should parse readable file argments":
+        self.parser.parse_args('exist_file'.split())
+        assert True
+    it "should parse readable dir argments":
+        self.parser.parse_args('exist_dir'.split())
+        assert True
+    it "should raise error on not exist dir argments":
+        raises Exception: self.parser.parse_args('not_exist_dir'.split())
 
 describe "set_simple_path_args":
-	it "should parse readable dir argments":
-		parsed_args = arg.set_simple_path_args(
-			"test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
-			args='exist_dir'.split())
-		assert parsed_args["dir"] == "exist_dir"
-	it "should rais error on not appropreate args":
-		raises Exception: arg.set_simple_path_args(
-			"test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
-			args='exist_file'.split())
+    it "should parse readable dir argments":
+        parsed_args = arg.set_simple_path_args(
+            "test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
+            args='exist_dir'.split())
+        assert parsed_args["dir"] == "exist_dir"
+    it "should rais error on not appropreate args":
+        raises Exception: arg.set_simple_path_args(
+            "test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
+            args='exist_file'.split())
+
+import exputils.scriptutils.pathutils as pathu
+
+describe "getfiles":
+    it "should get file list":
+        f = pathu.getfiles("exist_dir","tsv")
+        assert len(f) == 2
+        f = pathu.getfiles("exist_dir")
+        assert len(f) == 4
