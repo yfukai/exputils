@@ -16,7 +16,7 @@ describe "add_pred_argument readable dir":
     before each:
         self.parser = arg.get_argparse_parser("test parser")
         self.parser.add_argument("path",
-            action=arg.argparse_action(arg.IS_DIR,arg.IS_READABLE))
+            action=arg.argparse_action("path",arg.IS_DIR,arg.IS_READABLE))
     it "should parse readable dir argments":
         self.parser.parse_args('exist_dir'.split())
         assert True
@@ -29,7 +29,7 @@ describe "add_pred_argument readable file":
     before each:
         self.parser = arg.get_argparse_parser("test parser")
         self.parser.add_argument("path",
-            action=arg.argparse_action(arg.IS_FILE,arg.IS_READABLE))
+            action=arg.argparse_action("path",arg.IS_FILE,arg.IS_READABLE))
     it "should parse readable file argments":
         self.parser.parse_args('exist_file'.split())
         assert True
@@ -42,7 +42,7 @@ describe "add_pred_argument readable path":
     before each:
         self.parser = arg.get_argparse_parser("test parser")
         self.parser.add_argument("path",
-            action=arg.argparse_action(arg.IS_PATH,arg.IS_READABLE))
+            action=arg.argparse_action("path",arg.IS_PATH,arg.IS_READABLE))
     it "should parse readable file argments":
         self.parser.parse_args('exist_file'.split())
         assert True
@@ -55,8 +55,23 @@ describe "add_pred_argument readable path":
 describe "set_simple_path_args":
     it "should parse readable dir argments":
         parsed_args = arg.set_simple_path_args(
-            "test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
+            "test dir path",
+            arg.PathArg("dir",(arg.IS_DIR,arg.IS_READABLE)),
             args='exist_dir'.split())
+        assert parsed_args["dir"] == "exist_dir"
+    it "should parse readable file argments":
+        parsed_args = arg.set_simple_path_args(
+            "test dir path",
+            arg.PathArg("file",(arg.IS_FILE,arg.IS_READABLE)),
+            args='exist_file'.split())
+        assert parsed_args["file"] == "exist_file"
+    it "should parse multiple argments":
+        parsed_args = arg.set_simple_path_args(
+            "test dir path",
+            arg.PathArg("file",(arg.IS_FILE,arg.IS_READABLE)),
+            arg.PathArg("dir",(arg.IS_DIR,arg.IS_READABLE)),
+            args='exist_file exist_dir'.split())
+        assert parsed_args["file"] == "exist_file"
         assert parsed_args["dir"] == "exist_dir"
     it "should rais error on not appropreate args":
         raises Exception: arg.set_simple_path_args(
