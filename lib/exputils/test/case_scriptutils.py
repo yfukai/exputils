@@ -71,3 +71,10 @@ describe "getfiles":
         assert len(f) == 2
         f = pathu.getfiles("exist_dir")
         assert len(f) == 4
+        
+
+import exputils.scriptutils.iterutils as iteru
+describe "iget":
+    it "should get iter element by index":
+        assert iteru.iget([1,2,-1,4],2) == -1
+ 
