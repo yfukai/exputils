@@ -86,7 +86,14 @@ describe "getfiles":
         assert len(f) == 2
         f = pathu.getfiles("exist_dir")
         assert len(f) == 4
-        
+
+describe "get_abs_path":
+    it "should get abstract path":
+        p = pathu.get_abs_path("exist_dir")
+        assert p.endswith("exist_dir")
+        assert p.startswith("/")
+        p = pathu.get_abs_path("/tmp")
+        assert p == "/tmp"
 
 import exputils.scriptutils.iterutils as iteru
 describe "iget":

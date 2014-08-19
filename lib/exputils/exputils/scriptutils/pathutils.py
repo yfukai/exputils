@@ -10,3 +10,8 @@ def getfiles(directory,extension=None):
             files.append(path.abspath(path.join(directory,f)))
     return files
 
+def get_abs_path(p):
+    if path.isabs(p):
+        return p
+    else:
+        return path.abspath(path.join(os.getcwd(),p))
