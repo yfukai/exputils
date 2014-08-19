@@ -18,6 +18,11 @@ def argparse_action(name,*preds):
         "__call__" : (lambda self, parser, namespace, values, option_string=None : setattr(namespace, self.dest, checkargs(self.preds, values)))
         })
 
+def OR(p1,p2):
+    return PathPredicate(
+        (lambda p : (p1.pred(p) or p2.pred(p))),
+        p1.message + " or " + p2.message )
+
 IS_PATH = PathPredicate(
         (lambda p : os.path.exists(p)), 
         "is_path :{0} is not a exist path")

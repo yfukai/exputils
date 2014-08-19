@@ -73,6 +73,17 @@ describe "set_simple_path_args":
             args='exist_file exist_dir'.split())
         assert parsed_args["file"] == "exist_file"
         assert parsed_args["dir"] == "exist_dir"
+    it "should parse or argments":
+        parsed_args = arg.set_simple_path_args(
+            "test dir path",
+            arg.PathArg("file_or_dir",(arg.OR(arg.IS_FILE,arg.IS_DIR),arg.IS_READABLE)),
+            args='exist_file'.split())
+        assert parsed_args["file_or_dir"] == "exist_file"
+        parsed_args = arg.set_simple_path_args(
+            "test dir path",
+            arg.PathArg("file_or_dir",(arg.OR(arg.IS_FILE,arg.IS_DIR),arg.IS_READABLE)),
+            args='exist_dir'.split())
+        assert parsed_args["file_or_dir"] == "exist_dir"
     it "should rais error on not appropreate args":
         raises Exception: arg.set_simple_path_args(
             "test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
