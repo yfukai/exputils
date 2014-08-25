@@ -22,4 +22,5 @@ def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
     
     return arr
 
-
+#def linear_fitting(xs,ys,xmin=None,xmax=None):
+#    return a,da,b,db

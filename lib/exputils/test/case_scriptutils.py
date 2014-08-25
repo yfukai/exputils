@@ -89,6 +89,16 @@ describe "set_simple_path_args":
             "test dir path",{"dir":(arg.IS_DIR,arg.IS_READABLE)},
             args='exist_file'.split())
 
+describe "set_args":
+    it "should parse ordinary argments":
+        parsed_args = arg.set_args(
+            "test dir path",
+            arg.PathArg("dir",(arg.IS_DIR,arg.IS_READABLE)),
+            arg.Arg("N", type=int),
+            args='exist_dir 10'.split())
+        assert parsed_args["dir"] == "exist_dir"
+        assert parsed_args["N"] == 10
+ 
 import exputils.scriptutils.pathutils as pathu
 
 describe "getfiles":
