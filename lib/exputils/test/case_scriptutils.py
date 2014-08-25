@@ -124,7 +124,7 @@ describe "iget":
 describe "csv_skip_row":
     it "shold skip comment line":
         data = ["#comment","data"]
-        result = list(iteru.csv_skip_row(data))
+        result = list(iteru.skip_comment(data))
         assert len(result) == 1
         assert result[0] == "data"
  
