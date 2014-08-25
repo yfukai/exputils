@@ -120,4 +120,11 @@ import exputils.scriptutils.iterutils as iteru
 describe "iget":
     it "should get iter element by index":
         assert iteru.iget([1,2,-1,4],2) == -1
+
+describe "csv_skip_row":
+    it "shold skip comment line":
+        data = ["#comment","data"]
+        result = list(iteru.csv_skip_row(data))
+        assert len(result) == 1
+        assert result[0] == "data"
  
