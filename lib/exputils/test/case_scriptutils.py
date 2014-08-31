@@ -116,6 +116,15 @@ describe "get_abs_path":
         p = pathu.get_abs_path("/tmp")
         assert p == "/tmp"
 
+describe "makedirs":
+    it "can create not exist folder":
+        pathu.makedirs("/tmp/tmp_dir")
+        os.removedirs("/tmp/tmp_dir")
+    it "can skip exist folder":
+        pathu.makedirs("exist_dir")
+    it "dont skip exist folder on checkTrue":
+        raises Exception: pathu.makedirs("exist_dir",True)
+
 import exputils.scriptutils.iterutils as iteru
 describe "iget":
     it "should get iter element by index":

@@ -15,3 +15,10 @@ def get_abs_path(p):
         return p
     else:
         return path.abspath(path.join(os.getcwd(),p))
+
+def makedirs(p,check=False):
+    if not check:
+        if not os.path.exists(p):
+            os.makedirs(p)
+    else:
+        os.makedirs(p)
