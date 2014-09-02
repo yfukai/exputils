@@ -1,4 +1,5 @@
 from scipy.interpolate import interp1d
+import math
 
 def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
     length = len(arr)
@@ -22,5 +23,8 @@ def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
     
     return arr
 
-#def linear_fitting(xs,ys,xmin=None,xmax=None):
-#    return a,da,b,db
+def get_log_separated_array(begin, end, count):
+    return [math.exp(math.log(begin)+(math.log(end)-math.log(begin))*float(i)/float(count-1)) for i in range(count)]
+
+def linear_fitting(xs,ys,xmin=None,xmax=None):
+    return a,da,b,db

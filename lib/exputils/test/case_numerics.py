@@ -23,3 +23,10 @@ describe "numerics.interpolate_array":
         assert r == [1,2,2.5,3]
         r = numericsu.interpolate_array([1,2,3,4,-1],lambda x: x>0)
         assert r == [1,2,3,4,4]
+
+import math
+describe "numerics.get_log_separated_array":
+    it "should get appropreate array":
+        result = numericsu.get_log_separated_array(10,1000,3)
+        for i in range(len(result)):
+            assert abs(result[i] - math.pow(10,1+i)) < 10e-5
