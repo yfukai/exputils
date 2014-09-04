@@ -1,4 +1,5 @@
 from scipy.interpolate import interp1d
+import numpy as np
 import math
 
 def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
@@ -25,6 +26,11 @@ def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
 
 def get_log_separated_array(begin, end, count):
     return [math.exp(math.log(begin)+(math.log(end)-math.log(begin))*float(i)/float(count-1)) for i in range(count)]
+
+# returns  fmod(a,b) + b if a is negative
+def fmod_positive(a,b):
+    return np.fmod(a,b) if a > 0 else np.fmod(a,b) + b
+
 
 def linear_fitting(xs,ys,xmin=None,xmax=None):
     return a,da,b,db

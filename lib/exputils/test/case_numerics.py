@@ -30,3 +30,10 @@ describe "numerics.get_log_separated_array":
         result = numericsu.get_log_separated_array(10,1000,3)
         for i in range(len(result)):
             assert abs(result[i] - math.pow(10,1+i)) < 10e-5
+
+describe "numerics.fmod_positive":
+    it "should apply appropreately":
+        assert numericsu.fmod_positive(1.5,0.7) - 0.1 < 10e-7
+        assert numericsu.fmod_positive(-1.4,0.4) - 0.2 < 10e-7
+
+
