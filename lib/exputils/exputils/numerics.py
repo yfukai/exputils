@@ -29,7 +29,7 @@ def get_log_separated_array(begin, end, count):
 
 # returns  fmod(a,b) + b if a is negative
 def fmod_positive(a,b):
-    return np.fmod(a,b) if a > 0 else np.fmod(a,b) + b
+    return np.fmod(a,b) + (a<0)*b 
 
 
 def linear_fitting(xs,ys,xmin=None,xmax=None):
