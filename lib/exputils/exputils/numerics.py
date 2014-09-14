@@ -27,5 +27,10 @@ def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
 def get_log_separated_array(begin, end, count):
     return np.logspace(np.log10(begin),np.log10(end),count)
 
+# returns  fmod(a,b) + b if a is negative
+def fmod_positive(a,b):
+    return np.fmod(a,b) + (a<0)*b 
+
+
 def linear_fitting(xs,ys,xmin=None,xmax=None):
     return a,da,b,db
