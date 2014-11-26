@@ -76,6 +76,6 @@ def linear_fitting(xs,ys,dxs=None,dys=None,xmin=None,xmax=None):
         das[i,1] = max(abs(a2-a),abs(a3-a))
         dbs[i,1] = max(abs(b2-b),abs(b3-b))
 
-     da = np.sqrt(np.sum(np.flatten(das)**2))
-     db = np.sqrt(np.sum(np.flatten(dbs)**2))
-     return a,da,b,db
+    da = np.sqrt(np.sum(np.flatten(das)**2))
+    db = np.sqrt(np.sum(np.flatten(dbs)**2))
+    return a,da,b,db
