@@ -25,7 +25,7 @@ def interpolate_array(arr, is_appropreate, circle=False, **interp_args):
     return arr
 
 def get_log_separated_array(begin, end, count):
-    return [math.exp(math.log(begin)+(math.log(end)-math.log(begin))*float(i)/float(count-1)) for i in range(count)]
+    return np.logspace(np.log10(begin),np.log10(end),count)
 
 # returns  fmod(a,b) + b if a is negative
 def fmod_positive(a,b):
