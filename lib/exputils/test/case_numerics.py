@@ -41,4 +41,8 @@ describe "numerics.fmod_positive":
         result = numericsu.fmod_positive(np.array([1.5,-1.5]),0.7)
         assert result[0] - 0.1 < 10e-7
         assert result[1] - 0.6 < 10e-7
-
+describe "numerics.linear_fitting":
+    it "should not throw error":
+        a, b , da, db = numericsu.linear_fitting([1,2,3],[4,5,6])
+        assert a - 1 < 10e-10
+        assert b - 3 < 10e-10
