@@ -32,11 +32,11 @@ def fmod_positive(a,b):
     return np.fmod(a,b) + (a<0)*b 
 
 def calc_linear_fitting_consts(xs,ys,ws = None):
-    average_x = np.average(xs,ws)
-    average_x_times_2 = np.average(xs**2,ws)
-    average_y = np.average(ys,ws)
+    average_x = np.average(xs, weights=ws)
+    average_x_times_2 = np.average(xs**2, weights=ws)
+    average_y = np.average(ys, weights=ws)
     var_x = average_x_times_2-average_x**2
-    covar = np.average(xs*ys,ws) - average_x*average_y
+    covar = np.average(xs*ys, weights=ws) - average_x*average_y
     a = var_x / covar
     b = average_y - a * average_x
     return a, b
