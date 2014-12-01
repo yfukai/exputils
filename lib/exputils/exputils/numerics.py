@@ -95,6 +95,6 @@ def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finf
         da = np.sqrt(np.sum(das.flatten()**2))
         db = np.sqrt(np.sum(dbs.flatten()**2))
     else:
-        da = np.sum(das.flatten())
-        db = np.sum(dbs.flatten())
+        da = np.sum(np.abs(das.flatten()))
+        db = np.sum(np.abs(dbs.flatten()))
     return a,b,da,db
