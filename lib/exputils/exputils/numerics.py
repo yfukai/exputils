@@ -37,7 +37,7 @@ def calc_linear_fitting_consts(xs,ys,ws = None):
     average_y = np.average(ys, weights=ws)
     var_x = average_x_times_2-average_x**2
     covar = np.average(xs*ys, weights=ws) - average_x*average_y
-    a = var_x / covar
+    a = covar / var_x
     b = average_y - a * average_x
     return a, b
 
