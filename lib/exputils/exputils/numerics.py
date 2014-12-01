@@ -31,32 +31,41 @@ def get_log_separated_array(begin, end, count):
 def fmod_positive(a,b):
     return np.fmod(a,b) + (a<0)*b 
 
-def calc_linear_fitting_consts(xs,ys):
-    mean_x = np.mean(xs)
-    mean_x_times_2 = np.mean(xs**2)
-    mean_y = np.mean(ys)
-    var_x = mean_x_times_2-mean_x**2
-    covar = np.mean(xs*ys) - mean_x*mean_y
+def calc_linear_fitting_consts(xs,ys,ws = None):
+    average_x = np.average(xs,ws)
+    average_x_times_2 = np.average(xs**2,ws)
+    average_y = np.average(ys,ws)
+    var_x = average_x_times_2-average_x**2
+    covar = np.average(xs*ys,ws) - average_x*average_y
     a = var_x / covar
-    b = mean_y - a * mean_x
+    b = average_y - a * average_x
     return a, b
 
 def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finfo(float).max):
     xs = np.array(xs,dtype=float); ys = np.array(ys,dtype=float)
     indices = np.where(np.logical_and(xs >= xmin,  xs <= xmax))[0]
     xs = xs[indices] ; ys = ys[indices]
-    a,b = calc_linear_fitting_consts(xs,ys)
-    
-    if dxs == None:
-        dxs = np.zeros(len(indices))
+
+    if dxs != None:
+        dxs = np.array(dxs)[indices]
     else:
-        dxs = dxs[indices]
+        dxs = np.zeros(len(indices))
+    if dys != None:
+        dys = np.array(dys)[indices]
+ 
+    if dxs != None and dys != None:
+        ws = 1.0 / np.sqrt(dxs**2 + dys**2)
+    elif dys != None:
+        ws = 1.0 / np.sqrt(dys**2)
+    else:
+        ws = None
+
+    a,b = calc_linear_fitting_consts(xs,ys,ws)
+    
     if dys == None:
         dys = ys - a * xs - b
         std = np.std(dys)
         dys = np.array([std]*len(indices))
-    else:
-        dys = dys[indices]
 
     das = np.empty([len(indices),2])
     dbs = np.empty([len(indices),2])
@@ -67,8 +76,8 @@ def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finf
         dx = dxs[i]
         xs2[i] = xs[i]+dx
         xs3[i] = xs[i]-dx
-        a2, b2 = calc_linear_fitting_consts(xs2,ys)
-        a3, b3 = calc_linear_fitting_consts(xs2,ys)
+        a2, b2 = calc_linear_fitting_consts(xs2,ys,ws)
+        a3, b3 = calc_linear_fitting_consts(xs2,ys,ws)
         das[i,0] = max(abs(a2-a),abs(a3-a))
         dbs[i,0] = max(abs(b2-b),abs(b3-b))
 
@@ -77,8 +86,8 @@ def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finf
         dy = dys[i]
         ys2[i] = ys[i]+dy
         ys3[i] = ys[i]-dy
-        a2, b2 = calc_linear_fitting_consts(xs,ys2)
-        a3, b3 = calc_linear_fitting_consts(xs,ys3)
+        a2, b2 = calc_linear_fitting_consts(xs,ys2,ws)
+        a3, b3 = calc_linear_fitting_consts(xs,ys3,ws)
         das[i,1] = max(abs(a2-a),abs(a3-a))
         dbs[i,1] = max(abs(b2-b),abs(b3-b))
 
