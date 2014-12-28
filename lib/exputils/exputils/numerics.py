@@ -31,6 +31,47 @@ def get_log_separated_array(begin, end, count):
 def fmod_positive(a,b):
     return np.fmod(a,b) + (a<0)*b 
 
+def polyfit(xs,yss,N,ws = None):
+    if ws != None:
+        W = np.diag(ws)
+    else:
+        W = np.identity(len(xs))
+    WA = W.dot(np.array([[x**n for n in range(3)] for x in a]))
+    Wy = W.dot(ys)
+    B = WA.dot(np.linalg.inv(WA.transpose().dot(WA)))
+    betas = B.transpose().dot(Wy)
+    covariances = B.transpose().dot(np.cov())
+    return B.transpose().dot(Wy) , 
+
+#f: xs, ysを引数にとってdysを返す関数
+#params_estimate: xs,ys,wsを引数にとる関数(各フィッティングパラメータを返す)
+def fit(f,params_estimate,xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finfo(float).max,independent=True):
+    xs = np.array(xs,dtype=float); ys = np.array(ys,dtype=float)
+    indices = np.where(np.logical_and(xs >= xmin,  xs <= xmax))[0]
+    xs = xs[indices] ; ys = ys[indices]
+
+    if dxs != None:
+        dxs = np.array(dxs)[indices]
+    else:
+        dxs = np.zeros(len(indices))
+    if dys != None:
+        dys = np.array(dys)[indices]
+ 
+    if dxs != None and dys != None:
+        ws = 1.0 / np.sqrt(dxs**2 + dys**2)
+    elif dys != None:
+        ws = 1.0 / np.sqrt(dys**2)
+    else:
+        ws = None
+
+    vals = params_estimate(xs,ys,ws)
+    valsnum = len(vals)
+    
+    if dys == None:
+        dys = f(xs,ys)
+        std = np.std(dys)
+        dys = np.array([std]*len(indices))
+
 def calc_linear_fitting_consts(xs,ys,ws = None):
     average_x = np.average(xs, weights=ws)
     average_x_times_2 = np.average(xs**2, weights=ws)
