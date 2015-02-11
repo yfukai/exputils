@@ -1,7 +1,16 @@
 import matplotlib.pyplot as plt
 
-def plt_guideline(bx,by,ex,exponent,label="",style="-b",ha="right",plot_dist=plt):
-    ey = by*((ex/bx)**exponent)
+def plt_guideline_log(b,e,exponent,label="",style="-b",ha="right",plot_dist=plt):
+    if len(b) == 2 and len(e) == 1:
+        bx = b[0]
+        by = b[1]
+        ex = e[0]
+        ey = by*((ex/bx)**exponent)
+    elif len(b) == 1 and len(e) == 2:
+        bx = b[0]
+        ex = e[0]
+        ey = e[1]
+        by = ey/((ex/bx)**exponent)
     plt.loglog([bx,ex],[by,ey],style)
     plt.text(ex,ey,label,horizontalalignment=ha)
 
