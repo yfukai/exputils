@@ -43,6 +43,7 @@ describe "numerics.fmod_positive":
         assert result[1] - 0.6 < 10e-7
 describe "numerics.linear_fitting":
     it "should not throw error":
-        a, b , da, db = numericsu.linear_fitting([1,2,3],[4,5,6])
+        a, b , da, db = numericsu.linear_fitting([1,2,4],[4,5,7])
         assert a - 1 < 10e-10
         assert b - 3 < 10e-10
+        a, b , da, db = numericsu.linear_fitting([1.5,2.4,3],[4,5,6])
