@@ -41,7 +41,7 @@ def calc_linear_fitting_consts(xs,ys,ws = None):
     b = average_y - a * average_x
     return a, b
 
-def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finfo(float).max):
+def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finfo(float).max,independent=True):
     xs = np.array(xs,dtype=float); ys = np.array(ys,dtype=float)
     indices = np.where(np.logical_and(xs >= xmin,  xs <= xmax))[0]
     xs = xs[indices] ; ys = ys[indices]
@@ -91,6 +91,10 @@ def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finf
         das[i,1] = max(abs(a2-a),abs(a3-a))
         dbs[i,1] = max(abs(b2-b),abs(b3-b))
 
-    da = np.sqrt(np.sum(das.flatten()**2))
-    db = np.sqrt(np.sum(dbs.flatten()**2))
+    if independent:
+        da = np.sqrt(np.sum(das.flatten()**2))
+        db = np.sqrt(np.sum(dbs.flatten()**2))
+    else:
+        da = np.sum(np.abs(das.flatten()))
+        db = np.sum(np.abs(dbs.flatten()))
     return a,b,da,db
