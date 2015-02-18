@@ -74,9 +74,9 @@ def fit(f,params_estimate,xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=
 
 def calc_linear_fitting_consts(xs,ys,ws = None):
     average_x = np.average(xs, weights=ws)
-    average_x_times_2 = np.average(xs**2, weights=ws)
+    average_x_pow_2 = np.average(xs**2, weights=ws)
     average_y = np.average(ys, weights=ws)
-    var_x = average_x_times_2-average_x**2
+    var_x = average_x_pow_2-average_x**2
     covar = np.average(xs*ys, weights=ws) - average_x*average_y
     a = covar / var_x
     b = average_y - a * average_x
