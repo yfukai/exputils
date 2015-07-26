@@ -8,7 +8,7 @@ exputils
 ## How to install
 
 ```python
-> easy_install exputils
+> pip install git+https://github.com/yskflute/exputils.git
 ```
 
 ## How to use
