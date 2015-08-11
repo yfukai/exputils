@@ -15,7 +15,7 @@ def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top"
     plot_dist.plot([bx,ex],[by,ey],style)
     x = bx if left else ex
     y = by if left else ey
-    plt_dist.text(x,y,label,ha=ha,va=va)
+    plot_dist.text(x,y,label,ha=ha,va=va)
 
 
 def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",plot_dist=plt):
@@ -29,15 +29,15 @@ def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va 
         ex = e[0]
         ey = e[1]
         by = ey/((ex/bx)**exponent)
-    plt_dist.loglog([bx,ex],[by,ey],style)
+    plot_dist.loglog([bx,ex],[by,ey],style)
     x = bx if left else ex
     y = by if left else ey
-    plt_dist.text(x,y,label,ha=ha,va=va)
+    plot_dist.text(x,y,label,ha=ha,va=va)
 
 def plt_horizontal_line(xs,y,label="",style="--",left=False,ha="right",va = "top",plot_dist=plt):
     bx = xs[0]
     ex = xs[1]
-    plt_dist.plot([bx,ex],[y,y],style)
+    plot_dist.plot([bx,ex],[y,y],style)
     x = bx if left else ex
-    plt_dist.text(x,y,label,horizontalalignment=ha,va=va)
+    plot_dist.text(x,y,label,horizontalalignment=ha,va=va)
 
