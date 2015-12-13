@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn
 
-def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,**args):
+def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,plotargs={},textargs={}):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
         by = b[1]
@@ -12,13 +12,13 @@ def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top"
         ex = e[0]
         ey = e[1]
         by = ey-((ex-bx)*slope)
-    plot_dist.plot([bx,ex],[by,ey],style)
+    plot_dist.plot([bx,ex],[by,ey],style,**plotargs)
     x = bx if left else ex
     y = by if left else ey
-    plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**args)
+    plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
 
-def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,**args):
+def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,plotargs={},textargs={}):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
         by = b[1]
@@ -29,15 +29,15 @@ def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va 
         ex = e[0]
         ey = e[1]
         by = ey/((ex/bx)**exponent)
-    plot_dist.loglog([bx,ex],[by,ey],style)
+    plot_dist.loglog([bx,ex],[by,ey],style,**plotargs)
     x = bx if left else ex
     y = by if left else ey
-    plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**args)
+    plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
-def plt_horizontal_line(xs,y,label="",style="--",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,**args):
+def plt_horizontal_line(xs,y,label="",style="--",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,plotargs={},textargs={}):
     bx = xs[0]
     ex = xs[1]
-    plot_dist.plot([bx,ex],[y,y],style)
+    plot_dist.plot([bx,ex],[y,y],style,**plotargs)
     x = bx if left else ex
-    plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**args)
+    plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
 
