@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn
 
-def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top",plot_dist=plt):
+def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,**args):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
         by = b[1]
@@ -15,7 +15,7 @@ def plt_guideline(b,e,slope,label="",style="-b",left=False,ha="right",va = "top"
     plot_dist.plot([bx,ex],[by,ey],style)
     x = bx if left else ex
     y = by if left else ey
-    plot_dist.text(x,y,label,ha=ha,va=va)
+    plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**args)
 
 
 def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,**args):
@@ -34,10 +34,10 @@ def plt_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="right",va 
     y = by if left else ey
     plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**args)
 
-def plt_horizontal_line(xs,y,label="",style="--",left=False,ha="right",va = "top",plot_dist=plt):
+def plt_horizontal_line(xs,y,label="",style="--",left=False,ha="right",va = "top",fontsize=10,plot_dist=plt,**args):
     bx = xs[0]
     ex = xs[1]
     plot_dist.plot([bx,ex],[y,y],style)
     x = bx if left else ex
-    plot_dist.text(x,y,label,horizontalalignment=ha,va=va)
+    plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**args)
 
