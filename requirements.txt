@@ -1,5 +1,5 @@
 konira==0.3.2
-scipy==0.15.1
+scipy
 seaborn==0.6.0
 
 
