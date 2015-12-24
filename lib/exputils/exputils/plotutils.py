@@ -25,6 +25,16 @@ def fit_data_lim(ax,margin=0,xlog=True,ylog=True):
     ax.set_xlim((xmin,xmax))
     ax.set_ylim((ymin,ymax))
 
+def set_log_minor(ax,fmt="%1.e",axis="both",subs=np.arange(1,10,1)):
+    if axis=="both" or axis=="x":
+        ax.xaxis.set_minor_locator(LogLocator(subs=subs))
+        ax.xaxis.set_minor_formatter(FormatStrFormatter(fmt))
+    if axis=="both" or axis=="y":
+        ax.yaxis.set_minor_locator(LogLocator(subs=subs))
+        ax.yaxis.set_minor_formatter(FormatStrFormatter(fmt))
+    else:
+        raise ValueError("axis parameter have to be both, x, or y")
+
 def plt_guideline(plot_dist,b,e,slope,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
