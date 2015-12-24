@@ -1,4 +1,6 @@
 import numpy as np
+from matplotlib.ticker import LogLocator, LogFormatter
+
 def fit_data_lim(ax,margin=0,xlog=True,ylog=True):
     lim=ax.dataLim
     lim=ax.dataLim
@@ -25,13 +27,13 @@ def fit_data_lim(ax,margin=0,xlog=True,ylog=True):
     ax.set_xlim((xmin,xmax))
     ax.set_ylim((ymin,ymax))
 
-def set_log_minor(ax,fmt="%1.e",axis="both",subs=np.arange(1,10,1)):
+def set_log_minor(ax,axis="both",subs=np.arange(1,10,1)):
     if axis=="both" or axis=="x":
         ax.xaxis.set_minor_locator(LogLocator(subs=subs))
-        ax.xaxis.set_minor_formatter(FormatStrFormatter(fmt))
+        ax.xaxis.set_minor_formatter(LogFormatter(labelOnlyBase=False))
     if axis=="both" or axis=="y":
         ax.yaxis.set_minor_locator(LogLocator(subs=subs))
-        ax.yaxis.set_minor_formatter(FormatStrFormatter(fmt))
+        ax.yaxis.set_minor_formatter(LogFormatter(labelOnlyBase=False))
     else:
         raise ValueError("axis parameter have to be both, x, or y")
 
