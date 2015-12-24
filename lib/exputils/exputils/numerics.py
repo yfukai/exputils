@@ -87,23 +87,23 @@ def linear_fitting(xs,ys,dxs=None,dys=None,xmin=np.finfo(float).min,xmax=np.finf
     indices = np.where(np.logical_and(xs >= xmin,  xs <= xmax))[0]
     xs = xs[indices] ; ys = ys[indices]
 
-    if dxs != None:
+    if not dxs is None:
         dxs = np.array(dxs)[indices]
     else:
         dxs = np.zeros(len(indices))
-    if dys != None:
+    if not dys is None:
         dys = np.array(dys)[indices]
  
-    if dxs != None and dys != None:
+    if (not dxs is None) and (not dys is None):
         ws = 1.0 / np.sqrt(dxs**2 + dys**2)
-    elif dys != None:
+    elif not dys is None:
         ws = 1.0 / np.sqrt(dys**2)
     else:
         ws = None
 
     a,b = calc_linear_fitting_consts(xs,ys,ws)
     
-    if dys == None:
+    if dys is None:
         dys = ys - a * xs - b
         std = np.std(dys)
         dys = np.array([std]*len(indices))
