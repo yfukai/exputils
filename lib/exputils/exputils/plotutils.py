@@ -77,3 +77,8 @@ def plt_horizontal_line(plot_dist,xs,y,label="",style="--",left=False,ha="right"
     x = bx if left else ex
     plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
 
+def imshow_color(plot_dist,img1,img2,img3,*args,**kargs):
+    im = np.transpose([img1,img2,img3],(1,2,0))
+    kargs.update({"interpolation":"none"})
+    plot_dist.imshow(im,,*args,**kargs)
+
