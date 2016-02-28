@@ -1,4 +1,4 @@
-konira==0.3.2
+#konira==0.3.2
 scipy
 seaborn==0.6.0
 
