@@ -31,12 +31,12 @@ def get_log_separated_array(begin, end, count):
 def fmod_positive(a,b):
     return np.fmod(a,b) + (a<0)*b 
 
-def polyfit(xs,yss,N,ws = None):
+def polyfit(xs,yss,N,weights = None):
     if ws != None:
-        W = np.diag(ws)
+        W = np.diag(weights)
     else:
         W = np.identity(len(xs))
-    WA = W.dot(np.array([[x**n for n in range(3)] for x in a]))
+    WA = W.dot(np.array([[x**n for n in range(N)] for x in xs]))
     Wy = W.dot(ys)
     B = WA.dot(np.linalg.inv(WA.transpose().dot(WA)))
     betas = B.transpose().dot(Wy)
