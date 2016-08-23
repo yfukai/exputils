@@ -26,6 +26,7 @@ def fit_data_lim(ax,margin=0,xlog=True,ylog=True):
         ymin=ymin-ym ; ymax=ymax+ym
     ax.set_xlim((xmin,xmax))
     ax.set_ylim((ymin,ymax))
+    return (xmin,xmax), (ymin,ymax)
 
 def set_log_minor(ax,axis="both",subs=np.arange(1,10,1)):
     if axis=="both" or axis=="x":
