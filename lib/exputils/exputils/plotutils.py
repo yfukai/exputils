@@ -1,7 +1,16 @@
 import numpy as np
 from matplotlib.ticker import LogLocator, LogFormatter
 
-def fit_data_lim(ax,margin=0,xlog=True,ylog=True):
+def get_data_lim(ax):
+    lim=ax.dataLim
+    lim=ax.dataLim
+    xmin=lim.xmin
+    xmax=lim.xmax
+    ymin=lim.ymin
+    ymax=lim.ymax
+    return (xmin,xmax), (ymin,ymax)
+
+def fit_data_lim(ax,axis="both",margin=0,xlog=True,ylog=True):
     lim=ax.dataLim
     lim=ax.dataLim
     xmin=lim.xmin
@@ -24,8 +33,10 @@ def fit_data_lim(ax,margin=0,xlog=True,ylog=True):
         yr=lim.ymax-lim.ymin
         ym=yr*margin
         ymin=ymin-ym ; ymax=ymax+ym
-    ax.set_xlim((xmin,xmax))
-    ax.set_ylim((ymin,ymax))
+    if axis=="both" or axis=="x":
+        ax.set_xlim((xmin,xmax))
+    if axis=="both" or axis=="y":
+        ax.set_ylim((ymin,ymax))
     return (xmin,xmax), (ymin,ymax)
 
 def set_log_minor(ax,axis="both",subs=np.arange(1,10,1)):
@@ -54,7 +65,6 @@ def plot_guideline(plot_dist,b,e,slope,label="",style="-b",left=False,ha="right"
     y = by if left else ey
     plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
-
 def plot_guideline_log(plot_dist,b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
@@ -72,8 +82,6 @@ def plot_guideline_log(plot_dist,b,e,exponent,label="",style="-b",left=False,ha=
     plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
 def plot_horizontal_line(ax,y,label="",linestyle="--",color="k",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
-    bx = xs[0]
-    ex = xs[1]
     ax.axhline(y,linestyle=linestyle,color=color,**plotargs)
     x = bx if left else ex
     plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
