@@ -85,7 +85,7 @@ def plot_horizontal_line(ax,y,label="",linestyle="--",color="k",left=False,ha="r
     ax.axhline(y,linestyle=linestyle,color=color,**plotargs)
     xlims,ylims=get_data_lim(ax)
     x=xlims[0] if left else xlims[1]
-    plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
+    ax.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
 
 def imshow_color(plot_dist,img1,img2,img3,*args,**kargs):
     im = np.transpose([img1,img2,img3],(1,2,0))
