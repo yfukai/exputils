@@ -38,7 +38,7 @@ def set_log_minor(ax,axis="both",subs=np.arange(1,10,1)):
     else:
         raise ValueError("axis parameter have to be both, x, or y")
 
-def plt_guideline(plot_dist,b,e,slope,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
+def plot_guideline(plot_dist,b,e,slope,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
         by = b[1]
@@ -55,7 +55,7 @@ def plt_guideline(plot_dist,b,e,slope,label="",style="-b",left=False,ha="right",
     plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
 
-def plt_guideline_log(plot_dist,b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
+def plot_guideline_log(plot_dist,b,e,exponent,label="",style="-b",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
         by = b[1]
@@ -71,10 +71,10 @@ def plt_guideline_log(plot_dist,b,e,exponent,label="",style="-b",left=False,ha="
     y = by if left else ey
     plot_dist.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
-def plt_horizontal_line(plot_dist,xs,y,label="",style="--",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
+def plot_horizontal_line(ax,y,label="",linestyle="--",color="k",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
     bx = xs[0]
     ex = xs[1]
-    plot_dist.plot([bx,ex],[y,y],style,**plotargs)
+    ax.axhline(y,linestyle=linestyle,color=color,**plotargs)
     x = bx if left else ex
     plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
 
