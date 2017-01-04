@@ -83,7 +83,8 @@ def plot_guideline_log(plot_dist,b,e,exponent,label="",style="-b",left=False,ha=
 
 def plot_horizontal_line(ax,y,label="",linestyle="--",color="k",left=False,ha="right",va = "top",fontsize=10,plotargs={},textargs={}):
     ax.axhline(y,linestyle=linestyle,color=color,**plotargs)
-    x = bx if left else ex
+    xlims,ylims=get_data_lim(ax)
+    x=xlims[0] if left else xlims[1]
     plot_dist.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
 
 def imshow_color(plot_dist,img1,img2,img3,*args,**kargs):
