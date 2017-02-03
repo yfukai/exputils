@@ -86,6 +86,10 @@ def plot_horizontal_line(ax,y,label="",linestyle="--",color="k",left=False,ha="r
     xlims=ax.get_xlim()
     x=xlims[0] if left else xlims[1]
     ax.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
+def plot_errorbar(ax,xs,ys,dys,**kwargs):
+    (_,caps,_)=ax.errorbar(xs,ys,dys,**kwargs)
+    for cap in caps:
+        cap.set_markeredgewidth(1)
 
 def imshow_color(plot_dist,img1,img2,img3,*args,**kargs):
     im = np.transpose([img1,img2,img3],(1,2,0))
