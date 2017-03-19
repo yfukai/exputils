@@ -3,3 +3,4 @@
 from . import argutils
 from . import iterutils
 from . import pathutils
+from . import plotutils
