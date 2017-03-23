@@ -45,14 +45,14 @@ def fit_data_lim(ax=None,which="both",margin=0,xlog=True,ylog=True):
 
 def set_log_minor(ax=None,which="both",subs=(2,5)):
     if ax is None: ax=plt.gca()
-    if which=="both" or which=="x":
+    if which in ("both","x"):
         ax.xaxis.set_minor_locator(ticker.LogLocator(subs=subs))
         ax.xaxis.set_minor_formatter(ticker.LogFormatter(labelOnlyBase=False))
-    if which=="both" or which=="y":
+    if which in ("both","y"):
         ax.yaxis.set_minor_locator(ticker.LogLocator(subs=subs))
         ax.yaxis.set_minor_formatter(ticker.LogFormatter(labelOnlyBase=False))
-    else:
-        raise ValueError("which parameter have to be both, x, or y")
+#    else:
+#        raise ValueError("which parameter must be both, x, or y")
 
 def plot_guideline(b,e,slope,label="",style="-b",left=False,ha="left",va="bottom",fontsize=10,plotargs={},textargs={},ax=None):
     if ax is None: ax=plt.gca()
@@ -89,14 +89,12 @@ def plot_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="left",va=
     y = by if left else ey
     ax.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
-def plot_horizontal_line(y,label="",linestyle="--",color="k",left=False,ha="left",va="center",
-        fontsize=10,plotargs={},textargs={},ax=None):
+def plot_horizontal_line(y,label="",linestyle="--",color="k",left=False,ha="left",va="center",fontsize=10,xoffset=0,yoffset=0,plotargs={},textargs={},ax=None):
     if ax is None: ax=plt.gca()
     ax.axhline(y,linestyle=linestyle,color=color,**plotargs)
     xlims=ax.get_xlim()
     x=xlims[0] if left else xlims[1]
-    ax.text(x,y,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
-
+    ax.text(x+xoffset,y+yoffset,label,horizontalalignment=ha,va=va,fontsize=fontsize,**textargs)
 def imshow_color(img1,img2,img3,ax=None,*args,**kargs):
     if ax is None: ax=plt.gca()
     im = np.transpose([img1,img2,img3],(1,2,0))
@@ -111,3 +109,12 @@ def set_str_formatters(fmt,ax=None,which="both"):
     if which=="both" or which=="y":
         ax.yaxis.set_major_formatter(ticker.FormatStrFormatter(fmt))
         ax.yaxis.set_minor_formatter(ticker.FormatStrFormatter(fmt))
+
+def hide_tick_label(ax=None,which="both"):
+    if ax is None: ax=plt.gca()
+    if which=="both" or which=="x":
+        plt.setp(ax.get_xmajorticklabels(), visible=False)
+        plt.setp(ax.get_xminorticklabels(), visible=False)
+    if which=="both" or which=="y":
+        plt.setp(ax.get_ymajorticklabels(), visible=False)
+        plt.setp(ax.get_yminorticklabels(), visible=False)
