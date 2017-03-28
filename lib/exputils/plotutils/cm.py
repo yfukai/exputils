@@ -5,3 +5,5 @@ warm_color=sns.color_palette(["#c83b36","#df6a37","#cca044","#b14dbe","#ae366a",
 cold_color=sns.color_palette(["#38279e","#3a66ba","#33a3a5","#71c458","#37a032","#2a865f"])
 def get_darker(cmap,r=0.5):
     return sns.color_palette([[c*r for c in cc] for cc in cmap])
+def change_level(cmap,r=0.5):
+    return sns.color_palette([[min(c*r,1.) for c in cc] for cc in cmap])

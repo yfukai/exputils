@@ -3,6 +3,23 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 from . import cm
 
+def errorbar_arg_to_plot_arg(args):
+    args_plot=args.copy()
+    fmt=args_plot.pop("fmt",None)
+    args_plot.pop("capsize",None)
+    args_plot.pop("ecolor",None)
+    args_plot.pop("capthick",None)
+    return fmt, args_plot
+def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,**args):
+    if ax is None: ax=plt.gca()
+    wo_err_indices=np.setdiff1d(np.arange(len(x)),err_indices)
+    fmt,args_plot=errorbar_arg_to_plot_arg(args)
+    args_plot.pop("label",None)
+    ax.plot(x[wo_err_indices],y[wo_err_indices],fmt,**args_plot)
+    yerr2=None if yerr is None else yerr[err_indices]
+    xerr2=None if xerr is None else xerr[err_indices]
+    ax.errorbar(x[err_indices],y[err_indices],yerr2,xerr2,zorder=3,**args)
+
 def get_data_lim(ax=None):
     if ax is None: ax=plt.gca()
     lim=ax.dataLim
