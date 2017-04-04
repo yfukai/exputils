@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib import ticker
 from . import cm
 
+def legend_reverse(ax=None,**kwargs):
+    if ax is None: ax=plt.gca()
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles[::-1], labels[::-1],**kwargs)
 def errorbar_arg_to_plot_arg(args):
     args_plot=args.copy()
     fmt=args_plot.pop("fmt",None)
@@ -10,7 +14,8 @@ def errorbar_arg_to_plot_arg(args):
     args_plot.pop("ecolor",None)
     args_plot.pop("capthick",None)
     return fmt, args_plot
-def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,**args):
+def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={}
+        ,**args):
     if ax is None: ax=plt.gca()
     wo_err_indices=np.setdiff1d(np.arange(len(x)),err_indices)
     fmt,args_plot=errorbar_arg_to_plot_arg(args)
@@ -18,7 +23,9 @@ def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,**args):
     ax.plot(x[wo_err_indices],y[wo_err_indices],fmt,**args_plot)
     yerr2=None if yerr is None else yerr[err_indices]
     xerr2=None if xerr is None else xerr[err_indices]
-    ax.errorbar(x[err_indices],y[err_indices],yerr2,xerr2,zorder=3,**args)
+    args.update({"zorder":5})
+    args.update(last_params)
+    ax.errorbar(x[err_indices],y[err_indices],yerr2,xerr2,**args)
 
 def get_data_lim(ax=None):
     if ax is None: ax=plt.gca()
@@ -40,16 +47,22 @@ def fit_data_lim(ax=None,which="both",margin=0,xlog=True,ylog=True):
     ymax=lim.ymax
     if xlog:
         xr=lim.xmax/lim.xmin
-        xm=np.exp(np.log(xr)*margin)
-        xmin=xmin/xm ; xmax=xmax*xm
+        if xr>0:
+            xm=np.exp(np.log(xr)*margin)
+            xmin=xmin/xm ; xmax=xmax*xm
+        else:
+            xmin=xmin ; xmax=xmax
     else:
         xr=lim.xmax-lim.xmin
         xm=xr*margin
         xmin=xmin-xm ; xmax=xmax+xm
     if ylog:
         yr=lim.ymax/lim.ymin
-        ym=np.exp(np.log(yr)*margin)
-        ymin=ymin/ym ; ymax=ymax*ym
+        if yr>0:
+            ym=np.exp(np.log(yr)*margin)
+            ymin=ymin/ym ; ymax=ymax*ym
+        else:
+            ymin=ymin ; ymax=ymax
     else:
         yr=lim.ymax-lim.ymin
         ym=yr*margin
