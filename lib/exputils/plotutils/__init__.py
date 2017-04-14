@@ -14,8 +14,7 @@ def errorbar_arg_to_plot_arg(args):
     args_plot.pop("ecolor",None)
     args_plot.pop("capthick",None)
     return fmt, args_plot
-def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={}
-        ,**args):
+def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={},**args):
     if ax is None: ax=plt.gca()
     wo_err_indices=np.setdiff1d(np.arange(len(x)),err_indices)
     fmt,args_plot=errorbar_arg_to_plot_arg(args)
@@ -23,7 +22,7 @@ def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={}
     ax.plot(x[wo_err_indices],y[wo_err_indices],fmt,**args_plot)
     yerr2=None if yerr is None else yerr[err_indices]
     xerr2=None if xerr is None else xerr[err_indices]
-    args.update({"zorder":5})
+    args.update({"zorder":args_plot.get("zorder",3)+2})
     args.update(last_params)
     ax.errorbar(x[err_indices],y[err_indices],yerr2,xerr2,**args)
 
