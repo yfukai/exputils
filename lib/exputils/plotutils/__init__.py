@@ -1,30 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from matplotlib import ticker
 from . import cm
 
 #https://stackoverflow.com/questions/31940285/plot-a-polar-color-wheel-based-on-a-colormap-using-python-matplotlib
-def color_wheel(cmap,fig=plt.figure()):
-    display_axes = fig.add_axes([0.1,0.1,0.8,0.8], projection='polar')
-#    display_axes._direction = 2*np.pi ## This is a nasty hack - using the hidden field to 
-                                      ## multiply the values such that 1 become 2*pi
-                                      ## this field is supposed to take values 1 or -1 only!!
-    
-    norm = mpl.colors.Normalize(0.0, 2*np.pi)
-    
-    # Plot the colorbar onto the polar axis
-    # note - use orientation horizontal so that the gradient goes around
-    # the wheel rather than centre out
-    quant_steps = 2056
-    cb = mpl.colorbar.ColorbarBase(display_axes, cmap=cmap,
-                                       norm=norm,
-                                       orientation='horizontal')
-    
-    # aesthetics - get rid of border and axis labels                                   
-    cb.outline.set_visible(False)                                 
-    display_axes.set_axis_off()
-    plt.show() # Replace with plt.savefig if you want to save a file
+def color_wheel(cmap,fig=plt.figure(),figsize=(4,4)):
+    #Generate a figure with a polar projection
+    fg = plt.figure(figsize=figsize)
+    ax = fg.add_axes([0.1,0.1,0.8,0.8], projection='polar')
 
+    #define colormap normalization for 0 to 2*pi
+    norm = mpl.colors.Normalize(0, 2*np.pi) 
+
+    #Plot a color mesh on the polar plot
+    #with the color set by the angle
+
+    n = 200  #the number of secants for the mesh
+    t = np.linspace(0,2*np.pi,n)   #theta values
+    r = np.linspace(0,1,2)        #raidus values change 0.6 to 0 for full circle
+    rg, tg = np.meshgrid(r,t)      #create a r,theta meshgrid
+    c = tg                         #define color values as theta value
+    im = ax.pcolormesh(t, r, c.T,norm=norm,cmap=cmap)  #plot the colormesh on axis with colormap
+    ax.set_yticklabels([])                   #turn of radial tick labels (yticks)
+    ax.tick_params(pad=15,labelsize=24)      #cosmetic changes to tick labels
+    ax.spines['polar'].set_visible(False)    #turn off the axis spine.
+    
 def legend_reverse(ax=None,**kwargs):
     if ax is None: ax=plt.gca()
     handles, labels = ax.get_legend_handles_labels()
