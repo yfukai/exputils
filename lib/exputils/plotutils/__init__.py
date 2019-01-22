@@ -32,12 +32,15 @@ def legend_reverse(ax=None,**kwargs):
     ax.legend(handles[::-1], labels[::-1],**kwargs)
 def errorbar_arg_to_plot_arg(args):
     args_plot=args.copy()
-    fmt=args_plot.pop("fmt",None)
+    fmt=args_plot.pop("fmt",".")
     args_plot.pop("capsize",None)
     args_plot.pop("ecolor",None)
     args_plot.pop("capthick",None)
     return fmt, args_plot
 def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={},**args):
+    indices=np.argsort(x)
+    x=x[indices]
+    y=y[indices]
     if ax is None: ax=plt.gca()
     wo_err_indices=np.setdiff1d(np.arange(len(x)),err_indices)
     fmt,args_plot=errorbar_arg_to_plot_arg(args)
@@ -124,7 +127,7 @@ def plot_guideline(b,e,slope,label="",style="-b",left=False,ha="left",va="bottom
     ax.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
 def plot_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="left",va="bottom",
-        fontsize=10,plotargs={},textargs={},ax=None):
+        fontsize=10,plotargs={},textargs={},ax=None,xoffset=0,yoffset=0):
     if ax is None: ax=plt.gca()
     if len(b) == 2 and len(e) == 1:
         bx = b[0]
@@ -137,8 +140,8 @@ def plot_guideline_log(b,e,exponent,label="",style="-b",left=False,ha="left",va=
         ey = e[1]
         by = ey/((ex/bx)**exponent)
     ax.loglog([bx,ex],[by,ey],style,**plotargs)
-    x = bx if left else ex
-    y = by if left else ey
+    x = (bx if left else ex)+xoffset
+    y = (by if left else ey)+yoffset
     ax.text(x,y,label,ha=ha,va=va,fontsize=fontsize,**textargs)
 
 def plot_horizontal_line(y,label="",linestyle="--",color="k",left=False,ha="left",va="center",fontsize=10,xoffset=0,yoffset=0,plotargs={},textargs={},ax=None):
