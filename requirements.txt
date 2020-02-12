@@ -2,4 +2,4 @@
 argparse
 numpy
 scipy
-seaborn==0.6.0
+seaborn
