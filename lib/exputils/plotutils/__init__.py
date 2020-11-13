@@ -52,51 +52,44 @@ def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={},
     args.update(last_params)
     ax.errorbar(x[err_indices],y[err_indices],yerr2,xerr2,**args)
 
-def get_data_lim(ax=None):
-    if ax is None: ax=plt.gca()
-    lim=ax.dataLim
-    lim=ax.dataLim
-    xmin=lim.xmin
-    xmax=lim.xmax
-    ymin=lim.ymin
-    ymax=lim.ymax
-    return (xmin,xmax), (ymin,ymax)
+def get_all_data(ax=None):
+    if not ax:
+        ax=plt.gca()
+    xss,yss=zip(*[l.get_data() for l in ax.lines])
+    return xss,yss
 
-def fit_data_lim(ax=None,which="both",margin=0,xlog=True,ylog=True):
+def get_data_lim(ax=None,xlims=(-np.inf,np.inf),ylims=(-np.inf,np.inf)):
     if ax is None: ax=plt.gca()
-    lim=ax.dataLim
-    lim=ax.dataLim
-    xmin=lim.xmin
-    xmax=lim.xmax
-    ymin=lim.ymin
-    ymax=lim.ymax
-    if xlog:
-        xr=lim.xmax/lim.xmin
-        if xr>0:
-            xm=np.exp(np.log(xr)*margin)
-            xmin=xmin/xm ; xmax=xmax*xm
-        else:
-            xmin=xmin ; xmax=xmax
+    data=[np.concatenate(datum) for datum in get_all_data(ax)] #all xs, ys
+    data=[datum[np.logical_and(vmin<datum,datum<vmax)] 
+          for datum,vmin,vmax in zip(data,*zip(xlims,ylims))]
+    return [(np.min(datum),np.max(datum)) for datum in data]
+
+def calc_lim(vmin,vmax,margin,islog=False):
+    if islog:
+        vr=vmax/vmin
+        if vr>0:
+            vm=np.exp(np.log(vr)*margin)
+            vmin=vmin/vm ; vmax=vmax*vm
     else:
-        xr=lim.xmax-lim.xmin
-        xm=xr*margin
-        xmin=xmin-xm ; xmax=xmax+xm
-    if ylog:
-        yr=lim.ymax/lim.ymin
-        if yr>0:
-            ym=np.exp(np.log(yr)*margin)
-            ymin=ymin/ym ; ymax=ymax*ym
-        else:
-            ymin=ymin ; ymax=ymax
-    else:
-        yr=lim.ymax-lim.ymin
-        ym=yr*margin
-        ymin=ymin-ym ; ymax=ymax+ym
+        vr=vmax-vmin
+        vm=vr*margin
+        vmin=vmin-vm ; vmax=vmax+vm
+    return vmin,vmax
+
+def fit_data_lim(ax=None,which="both",
+                 margin=0,xlog=True,ylog=True,
+                 xlims=[-np.inf,np.inf],ylims=[-np.inf,np.inf]):
+    if ax is None: ax=plt.gca()
+    if xlog and xlims[0]<0: xlims[0]=0
+    if ylog and ylims[0]<0: ylims[0]=0
+    limss=get_data_lim(ax,xlims,ylims)
+    xlim,ylim=[calc_lim(*lims,margin,islog) 
+           for lims,islog in zip(limss,(xlog,ylog))]
     if which=="both" or which=="x":
-        ax.set_xlim((xmin,xmax))
+        ax.set_xlim(xlim)
     if which=="both" or which=="y":
-        ax.set_ylim((ymin,ymax))
-    return (xmin,xmax), (ymin,ymax)
+        ax.set_ylim(ylim)
 
 def set_log_minor(ax=None,which="both",subs=(2,5)):
     if ax is None: ax=plt.gca()
