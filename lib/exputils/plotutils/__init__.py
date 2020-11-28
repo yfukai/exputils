@@ -55,8 +55,11 @@ def errorbar_limited(err_indices,x,y,yerr=None,xerr=None,ax=None,last_params={},
 def get_all_data(ax=None):
     if not ax:
         ax=plt.gca()
-    xss,yss=zip(*[l.get_data() for l in ax.lines])
-    return xss,yss
+    if len(ax.lines)>0:
+        xss,yss=zip(*[l.get_data() for l in ax.lines])
+        return xss,yss
+    else:
+        return None
 
 def get_data_lim(ax=None,xlims=(-np.inf,np.inf),ylims=(-np.inf,np.inf)):
     if ax is None: ax=plt.gca()
