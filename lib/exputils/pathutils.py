@@ -1,4 +1,5 @@
 import os
+from os import walk
 import os.path as path
 
 def getfiles(directory,extension=None):
@@ -22,3 +23,9 @@ def makedirs(p,check=False):
             os.makedirs(p)
     else:
         os.makedirs(p)
+
+def re_glob_ignore_after_match(directory,pattern):
+    for root, dirs, files in walk(directory,topdown=True):
+        if re.search(pattern,root):
+            yield root
+            del dirs[:]
